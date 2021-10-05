@@ -60,17 +60,18 @@ class AjaxFormMixin(object):
             )
         return response
 
-    def form_valid(self, form):
-        response = super(AjaxFormMixin).form_valid(form)
+    def form_invalid(self, form):
+        response = super(AjaxFormMixin).form_invalid(form)
 
-        if self.request.is_ajax():
-            form.save()
+        if response.is_ajax():
+            form.is_valid()
             return JsonResponse(
                 {
                     'result': 'Success',
                     'message': ''
                 }
             )
+        return response
 
 
 def directions(*args, **kwargs):    # this handles direction from google
@@ -100,17 +101,44 @@ def directions(*args, **kwargs):    # this handles direction from google
             'key': settings.GOOGLE_API_KEY
         }
     )
-    
+
     directions = result.json()
-    
+
     if directions['status'] == 'OK':
         routes = directions['routes'][0]['legs']
-        
+
         distance = 0
-        direction = 0
+        duration = 0
         route_list = []
-        
+
         for route in range(len(routes)):
             distance += int(routes[route]['distance']['value'])
-            direction += int(routes[route]['distance']['value'])
-            
+            duration += int(routes[route]['duration']['value'])
+
+            route_step = {
+                'origin': routes[route]['start_address'],
+                'destination': routes[route]['end_address'],
+
+                'distance': routes[route]['distance']['text'],
+                'duration': routes[route]['duration']['text'],
+
+                'steps': [
+                    [
+                        s['distance']['text'],
+                        s['duration']['text'],
+                        s['html_instructions'],
+                    ]
+
+                    for s in routes[route]['steps']
+                    
+                ]
+            }
+            route_list.append(route_step)
+
+    return {
+        'origin': origin,
+        'destination': destination,
+        'distance': distance,
+        'duration': duration,
+        'route': route_list
+    }
