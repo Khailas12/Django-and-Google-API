@@ -75,20 +75,22 @@ class AjaxFormMixin(object):
 
 
 def directions(*args, **kwargs):    # this handles direction from google
+    # orign
+    lat_a = kwargs.get('lat_a')     # latitude
+    long_a = kwargs.get('long_a')   # longitude
 
-    lat_a = kwargs.get('lat_a')
-    long_a = kwargs.get('long_a')
-
+    # destination
     lat_b = kwargs.get('lat_b')
     long_b = kwargs.get('long_b')
 
+    # waypoints
     lat_c = kwargs.get('lat_c')
     long_c = kwargs.get('long_c')
-
     lat_d = kwargs.get('lat_d')
     long_d = kwargs.get('long_d')
 
-    origin = f'{lat_a}, {long_a}'
+
+    origin = f'{lat_a}, {long_a}'   # a demo of hw it looks 54.1,74.6
     destination = f'{lat_b}, {long_b}'
     waypoints = f'{lat_c}, {long_c}|{lat_d}, {long_d}'
 
