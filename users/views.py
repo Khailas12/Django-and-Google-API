@@ -19,3 +19,17 @@ from main.mixins import (
 )
 
 
+
+result = 'Error'
+message = 'Please try again'
+
+
+# generic formview with the mixin to display user account page
+class AccountView(TemplateView):
+    template_name = 'users/account.html'
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    
