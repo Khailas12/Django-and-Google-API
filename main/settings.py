@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'myapp',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,11 @@ RECAPTCHA_SECRET_KEY = os.getenv('SECRET_KEY')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# this will acess the homepage
+LOGIN_URL = 'usrs:sign-in'
+LOGIN_REDIRECT_URL = 'users:account'
+LOGOUT_REDIRECT_URL = 'users:sign-in'  # This will redirects to the sign-in page when the user signs out
+
+BASE_COUNTRY = 'IN'     # india
