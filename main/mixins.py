@@ -9,7 +9,7 @@ import json
 
 
 # this handles the errors that are passed back to the AJAX calls
-def FormErrors(*args):
+def form_errors(*args):
     message = ""
     for f in args:
         if f.errors:
@@ -31,7 +31,7 @@ def reCaptcha_validation(token):
 
 
 # this appends url parameters when redirecting users
-def redirect_parms(**kwargs):
+def redirect_params(**kwargs):
     url = kwargs.get('url')
     params = kwargs.get('params')
     response = redirect(url)
@@ -51,7 +51,7 @@ class AjaxFormMixin(object):
         response = super(AjaxFormMixin).form_invalid(form)
 
         if self.request.is_ajax():
-            message = FormErrors(form)
+            message = form_errors(form)
             return JsonResponse(
                 {
                     'result': 'Error',
