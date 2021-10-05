@@ -104,6 +104,7 @@ def directions(*args, **kwargs):    # this handles direction from google
 
     directions = result.json()
 
+
     if directions['status'] == 'OK':
         routes = directions['routes'][0]['legs']
 
