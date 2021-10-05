@@ -60,8 +60,8 @@ class AjaxFormMixin(object):
             )
         return response
 
-    def form_invalid(self, form):
-        response = super(AjaxFormMixin).form_invalid(form)
+    def form_valid(self, form):
+        response = super(AjaxFormMixin).form_valid(form)
 
         if response.is_ajax():
             form.is_valid()
