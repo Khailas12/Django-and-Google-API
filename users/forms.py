@@ -33,6 +33,7 @@ class UserForm(UserCreationForm):   # user creation
         attrs={'placeholder': 'Confirm Password', 'class': 'password'}
     )
 
+    # reCaptcha token
     token = forms.CharField(widget=forms.HiddenInput())
 
     class Meta:
