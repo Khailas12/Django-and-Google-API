@@ -139,7 +139,7 @@ def directions(*args, **kwargs):    # this handles direction from google
     return {
         'origin': origin,
         'destination': destination,
-        'distance': distance,
-        'duration': duration,
+        'distance': f'{round(distance/1000, 2)} Km',
+        'duration': format_timespan(duration),
         'route': route_list
     }
