@@ -70,9 +70,29 @@ class SignUpView(AjaxFormMixin, FormView):
     form_class = UserForm
     success_url = '/'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):   #reCapture key required
         context = super().get_context_data(**kwargs)
-        context['recatcha_site_key'] = settings.RECAPTCHA_KEY
+        context['recaptcha_site_key'] = settings.RECAPTCHA_KEY
         return context
     
-    
+    def form_valid(self, form): # overwriting the mixin logic to get, check and save reCapture score
+        response = super(AjaxFormMixin).form_valid(form)
+        
+        if self.request.is_ajax():
+            token = form.cleaned_data.get('token')
+            captcha = reCaptcha_validation(token)
+            
+            if captcha['success']:
+                obj = form.save()
+                obj.email = obj.email
+                obj.save()
+                user_profile = object.userprofile
+                user_profile.captcha_score = float(captcha['score'])
+                user_profile.save()
+                
+                login(self.request, obj, backend='django.contrib.auth.backends.ModelBackend')
+                
+                result = 'Success'
+                message = 'Thanks for signing up'
+        data = {'result': result, 'message': message}
+        return JsonResponse(data)
