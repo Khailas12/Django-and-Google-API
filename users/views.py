@@ -32,4 +32,47 @@ class AccountView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     
+
+def profile_view(request):     # this allows users to update their profile
+    user = request.user
+    user_profile = user.profile
+    
+    form = UserProfileForm(instance=user_profile)
+    
+    if request.is_ajax():
+        form = UserProfileForm(data=request.POST, instance=user_profile)
+        
+        if form.is_valid():
+            obj = form.save()
+            obj.has_profile = True
+            obj.save()
+            message = 'Profile has Updated Succesfully'
+            result = 'Success'
+        
+        else:
+            message = form_errors(form)
+        
+        data = {'message': message, 'result': result}
+        return JsonResponse(data)
+    
+    else:
+        context = {'form': form}
+        context['google_api_key'] = settings.GOOGLE_API_KEY
+        context['base_country'] = settings.BASE_COUNTRY
+        
+    return render(request, 'users/profile.html', context)
+        
+        
+
+# generic formview with the mixin for user sign-up with recapture security
+class SignUpView(AjaxFormMixin, FormView):
+    template_name = 'users/sign_up.html'
+    form_class = UserForm
+    success_url = '/'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recatcha_site_key'] = settings.RECAPTCHA_KEY
+        return context
+    
     
