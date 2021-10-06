@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
@@ -86,7 +86,8 @@ class SignUpView(AjaxFormMixin, FormView):
                 obj = form.save()
                 obj.email = obj.email
                 obj.save()
-                user_profile = object.userprofile
+                
+                user_profile = obj.userprofile
                 user_profile.captcha_score = float(captcha['score'])
                 user_profile.save()
                 
@@ -94,5 +95,40 @@ class SignUpView(AjaxFormMixin, FormView):
                 
                 result = 'Success'
                 message = 'Thanks for signing up'
-        data = {'result': result, 'message': message}
-        return JsonResponse(data)
+                
+            data = {'result': result, 'message': message}
+            return JsonResponse(data)
+        return response
+    
+
+
+class SignInView(AjaxFormMixin, FormView):
+    template_name = 'users/sign_in.html'
+    form_class = AuthForm
+    success_url = '/'
+    
+    def form_valid(self, form):
+        response = super(AjaxFormMixin).form_valid(form)
+        
+        if self.request.is_ajax():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            # tryna authenticate user
+            user = authenticate(self.request, username=username, password=password)
+            
+            if user is not None:
+                login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+                result = 'success'
+                message = 'Logged in'
+            
+            else:
+                message = form_errors(form)
+            
+            data = {'result': result, 'message': message}
+            return JsonResponse(data)
+        return response
+    
+
+def sign_out(request):
+    logout(request)
+    return redirect(reverse('user:sign-in'))
