@@ -20,19 +20,26 @@ class UserForm(UserCreationForm):   # user creation
             attrs={'placeholder': 'Enter your Second Name'}
         )
     )
-    email = forms.CharField(
+    email = forms.EmailField(
         max_length=30, required=True,
-        widget=forms.EmailField(
+        widget=forms.TextInput(
             attrs={'placeholder': 'Enter the Email'}
         )
     )
-    password1 = forms.TextInput(
-        attrs={'placeholder': 'Password', 'class': 'password'}
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password', 'class': 'password'
+            }
+        )
     )
-    password2 = forms.TextInput(
-        attrs={'placeholder': 'Confirm Password', 'class': 'password'}
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Confirm Password', 'class': 'password'
+            }
+        )
     )
-
     # reCaptcha token
     token = forms.CharField(widget=forms.HiddenInput())
 
