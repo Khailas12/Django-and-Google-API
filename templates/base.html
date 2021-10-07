@@ -16,12 +16,15 @@
         integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- this extends the head scripts-->
+
     {% block extend_head %}
-    {% endblock %}
+    {% endblock extend_head %}
 </head>
 
 <body>
-    {% include 'partials/nav.html' %}
+    {% include 'partials/navbar.html' %}
+    <!---extends the Navbar-->
 
     <div class='div-container'>
 
@@ -38,6 +41,7 @@
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- this extends the footer scripts-->
     {% block extend_footer %}
     {% endblock extend_footer %}
 

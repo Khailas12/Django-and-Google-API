@@ -20,7 +20,7 @@ class UserForm(UserCreationForm):   # user creation
             attrs={'placeholder': 'Enter your Second Name'}
         )
     )
-    email = forms.EmailField(
+    username = forms.EmailField(
         max_length=30, required=True,
         widget=forms.TextInput(
             attrs={'placeholder': 'Enter the Email'}
@@ -47,12 +47,12 @@ class UserForm(UserCreationForm):   # user creation
     class Meta:
         model = User
         fields = (
-            'first_name', 'last_name', 'email', 'password1', 'password2'
+            'first_name', 'last_name', 'username', 'password1', 'password2'
         )
 
 
 class AuthForm(AuthenticationForm):     # user auth
-    email = forms.EmailField(
+    username = forms.EmailField(
         max_length=50, required=True,
         widget=forms.TextInput(
             attrs={'placeholder': 'Email'}
@@ -67,7 +67,7 @@ class AuthForm(AuthenticationForm):     # user auth
     class Meta:
         model = User
         fields = (
-            'email', 'password',
+            'username', 'password',
         )
 
 
