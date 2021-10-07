@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extend_head %}
+{% endblock extend_head %}
+
+{% block content %}
+
+<h3>Django Google API - Sign In</h3>
+
+<div class='container'>
+
+    <form id='signform' method='POST' action='/sign-in'>
+        {% csrf_token %}
+        <label for='username'>Username</label>
+        {{ form.username }}
+
+        <label for='password'>Password</label>
+        {{ form.password }}
+
+        <label class='check-container'>Show Passwords
+            <input type='checkbox' onclick='showPword()'>
+            <span class='checkmark'></span>
+        </label>
+
+        <button type='submit'>Sign In</button>
+    </form>
+
+</div>
+
+{% endblock content %}
+
+{% block extend_footer %}
+{% endblock extend_footer %}

@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block extend_head %}
-{% endblock exhend_head %}
+{% endblock extend_head %}
 
 
 {% block content %}
@@ -17,6 +17,7 @@
         <thead>
             <tr>
                 <th>
+                    <!--table head-->
                     Field
                 </th>
                 <th></th>
@@ -25,11 +26,14 @@
 
         <tbody>
             <tr>
+                <!--table row-->
                 <td>Username</td>
+                <!--table data-->
                 <td>{{ request.user.username }}</td>
             </tr>
 
             <tr>
+                <!--table row-->
                 <td>Name</td>
                 <td>
                     {{ request.user.first_name|title }} {{ requset.user.last_name|title }}
@@ -37,6 +41,7 @@
             </tr>
 
             {% if request.user.userprofile.has_profile %}
+            <!--existing account-->
 
             <tr>
                 <td>Address</td>
@@ -51,6 +56,7 @@
             </tr>
 
             {% else %}
+            <!--new user-->
             <tr>
                 <td>User Profile</td>
                 <td><a href="{% url 'users:profile' %}">Create User Profile</a></td>
