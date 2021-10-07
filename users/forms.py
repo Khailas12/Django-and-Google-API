@@ -40,6 +40,7 @@ class UserForm(UserCreationForm):   # user creation
             }
         )
     )
+        
     # reCaptcha token
     token = forms.CharField(widget=forms.HiddenInput())
 

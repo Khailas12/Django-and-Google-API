@@ -35,7 +35,6 @@ def map(request):
             long_c = long_c,
             lat_d = lat_d,
             long_d = long_d
-            
         )
         
     else:

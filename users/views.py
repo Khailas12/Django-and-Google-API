@@ -131,4 +131,4 @@ class SignInView(AjaxFormMixin, FormView):
 
 def sign_out(request):
     logout(request)
-    return redirect(reverse('user:sign-in'))
+    return redirect(reverse('user:sign-in'))    #This redirects to the sign in page
